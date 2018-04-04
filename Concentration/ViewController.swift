@@ -14,20 +14,38 @@ class ViewController: UIViewController {
     
     var emoji = [Int:String]()
     
-    var emojiChoices = ["👻","🎃","🙀","🦇","🍬","🍭","🍫","😈","👹"]
+    var emojiChoices = [
+        "faces" : ["😀","😍","😴","😱","🤣","😂","😉","🙄","😬", "🤨"],
+        "halloween" :["👻","🎃","🧛🏼‍♂️","🦇","🍬","🍭","🍫","😈","🧟‍♂️", "🍎"],
+        "animals" : ["🐶","🐱","🐼","🦊","🦁","🐯","🐨","🐮","🐷", "🐵"],
+        "summer" : ["🏄🏼‍♂️","🏊🏼‍♀️","☀️","🌈","🌼","🏖","⛱","🏝","🎣", "🍦"],
+        "winter" : ["⛄️","☃️","🌨","❄️","🎿","🏂","⛷","🏒","⛸", "🛷"],
+        "jobs" : ["👩🏼‍💻","👨🏼‍🏫","👩🏼‍🔬","👨🏼‍🍳","👩🏼‍🌾","👩🏼‍🚀","👩🏼‍✈️","👨🏼‍⚖️","👩🏼‍🔧", "👨🏼‍🏭"],
+    ]
+    
+    lazy var themeEmoji = [String]( setThemeEmoji() )
     
     @IBOutlet weak var flipCountLabel: UILabel!
+    
+    @IBOutlet weak var themeLabel: UILabel!
     
     @IBOutlet var cardButtons: [UIButton]!
     
     @IBAction func touchCard(_ sender: UIButton) {
-    
         if let cardNumber = cardButtons.index(of: sender) {
             game.chooseCard(at: cardNumber)
             updateViewFromModel()
         } else {
             print("Card chosen was not in cardButtons array")
         }
+    }
+    
+    @IBAction func touchNewGame(_ sender: Any) {
+        game.reset()
+        themeEmoji.removeAll()
+        emoji.removeAll()
+        themeEmoji = setThemeEmoji()
+        updateViewFromModel()
     }
     
     func updateViewFromModel () {
@@ -47,16 +65,24 @@ class ViewController: UIViewController {
         }
     }
     
+    
     func getEmoji(for card: Card) -> String {
-        // Add the emoji choice to the emoji dictionary
-        if emoji[card.identifier] == nil, emojiChoices.count > 0 {
-            let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
-            emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
+    
+        //Add the emoji choice to the emoji dictionary
+        if emoji[card.identifier] == nil, themeEmoji.count > 0 {
+            let randomIndex = Int(arc4random_uniform(UInt32(themeEmoji.count)))
+            emoji[card.identifier] = themeEmoji.remove(at: randomIndex)
         }
         return emoji[card.identifier] ?? "?"
     }
     
-    
+    func setThemeEmoji() -> [String] {
+        let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
+        let themes = Array(emojiChoices.keys)
+        let theme = themes[randomIndex]
+        themeLabel.text = "\(theme)"
+        return emojiChoices[theme] ?? ["?"]
+    }
 
     
 }

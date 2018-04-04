@@ -16,9 +16,17 @@ class Concentration {
     
     var flipCount = 0
     
+    func reset() {
+        flipCount = 0
+        for index in 0..<cards.count {
+            cards[index].isFaceUp = false
+            cards[index].isMatched = false
+        }
+    }
+    
     func chooseCard(at index: Int) {
         if !cards[index].isMatched {
-                flipCount += 1
+            flipCount += 1
             //if a card is face up and not the one you picked
             if let matchIndex = faceUpCardIndex, matchIndex != index {
                   // If cards match
@@ -38,6 +46,8 @@ class Concentration {
             }
         }
     }
+    
+    
     
     init(numberOfPairsOfCards: Int) {
         for _ in 1...numberOfPairsOfCards {
