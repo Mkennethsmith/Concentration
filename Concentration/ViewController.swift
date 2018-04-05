@@ -17,30 +17,12 @@ class ViewController: UIViewController {
     var emojiChoices = [String]()
     
     let themes = [
-        "faces": [
-            "emoji" : ["😀","😍","😴","😱","🤣","😂","😉","🙄","😬","🤨"],
-            "colors": [#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1),#colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)]
-        ],
-        "halloween": [
-            "emoji": ["👻","🎃","🧛🏼‍♂️","🦇","🍬","🍭","🍫","😈","🧟‍♂️","🍎"],
-            "colors": [#colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1),#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)]
-        ],
-        "animals": [
-            "emoji" :  ["🐶","🐱","🐼","🦊","🦁","🐯","🐨","🐮","🐷","🐵"],
-            "colors":  [#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1),#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)]
-        ],
-        "summer": [
-            "emoji" : ["🏄🏼‍♂️","🏊🏼‍♀️","☀️","🌈","🌼","🏖","⛱","🏝","🎣","🍦"],
-            "colors": [#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1),#colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)]
-        ],
-        "winter": [
-            "emoji" : ["⛄️","☃️","🌨","❄️","🎿","🏂","⛷","🏒","⛸","🛷"],
-            "colors": [#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1),#colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)]
-        ],
-        "jobs": [
-            "emoji" : ["👩🏼‍💻","👨🏼‍🏫","👩🏼‍🔬","👨🏼‍🍳","👩🏼‍🌾","👩🏼‍🚀","👩🏼‍✈️","👨🏼‍⚖️","👩🏼‍🔧","👨🏼‍🏭"],
-            "colors": [#colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1),#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)]
-        ],
+        "halloween": ["emoji": ["👻","🎃","🧛🏼‍♂️","🦇","🍬","🍭","🍫","😈","🧟‍♂️","🍎"], "colors": [#colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1),#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)] ],
+        "faces": ["emoji": ["😀","😍","😴","😱","🤣","😂","😉","🙄","😬","🤨"], "colors": [#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1),#colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)] ],
+        "animals": ["emoji": ["🐶","🐱","🐼","🦊","🦁","🐯","🐨","🐮","🐷","🐵"], "colors": [#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1),#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)] ],
+        "summer": ["emoji" : ["🏄🏼‍♂️","🏊🏼‍♀️","☀️","🌈","🌼","🏖","⛱","🏝","🎣","🍦"], "colors": [#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1),#colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)] ],
+        "winter": ["emoji" : ["⛄️","☃️","🌨","❄️","🎿","🏂","⛷","🏒","⛸","🛷"], "colors": [#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1),#colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)]],
+        "jobs": ["emoji" : ["👩🏼‍💻","👨🏼‍🏫","👩🏼‍🔬","👨🏼‍🍳","👩🏼‍🌾","👩🏼‍🚀","👩🏼‍✈️","👨🏼‍⚖️","👩🏼‍🔧","👨🏼‍🏭"], "colors": [#colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1),#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)] ],
     ]
     
     override func viewDidLoad() {
@@ -50,8 +32,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var flipCountLabel: UILabel!
     
-    @IBOutlet weak var themeLabel: UILabel!
-    
+    @IBOutlet weak var scoreLabel: UILabel!
+
     @IBOutlet var cardButtons: [UIButton]!
     
     @IBAction func touchCard(_ sender: UIButton) {
@@ -74,7 +56,10 @@ class ViewController: UIViewController {
     func updateViewFromModel () {
         
         flipCountLabel.text = "Flips: \(game.flipCount)"
-        
+        flipCountLabel.textColor = cardColor
+        scoreLabel.text = "Score: \(game.score)"
+        scoreLabel.textColor = cardColor
+
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]

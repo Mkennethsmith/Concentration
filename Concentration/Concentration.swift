@@ -16,15 +16,23 @@ class Concentration {
     
     var flipCount = 0
     
+    var score = 0;
+    
+    var previouslyFlipped = false
+    
     func reset() {
         flipCount = 0
+        score = 0
         for index in 0..<cards.count {
             cards[index].isFaceUp = false
             cards[index].isMatched = false
+            cards[index].flipped = false
         }
     }
     
     func chooseCard(at index: Int) {
+        previouslyFlipped = cards[index].flipped
+        
         if !cards[index].isMatched {
             flipCount += 1
             //if a card is face up and not the one you picked
@@ -33,6 +41,14 @@ class Concentration {
                 if cards[index].identifier == cards[matchIndex].identifier {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
+                    score += 2
+                } else {
+                    if previouslyFlipped {
+                        score -= 2
+                    }
+                    if cards[index].flipped {
+                        score -= 1
+                    }
                 }
                 cards[index].isFaceUp = true
                 faceUpCardIndex = nil
@@ -44,6 +60,7 @@ class Concentration {
                 cards[index].isFaceUp = true
                 faceUpCardIndex = index
             }
+   
         }
     }
     
