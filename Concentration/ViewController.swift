@@ -25,6 +25,7 @@ class ViewController: UIViewController {
         "jobs": ["emoji" : ["👩🏼‍💻","👨🏼‍🏫","👩🏼‍🔬","👨🏼‍🍳","👩🏼‍🌾","👩🏼‍🚀","👩🏼‍✈️","👨🏼‍⚖️","👩🏼‍🔧","👨🏼‍🏭"], "colors": [#colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1),#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)] ],
     ]
     
+    // EXTRA CREDIT - Setting Theme
     override func viewDidLoad() {
         setTheme()
         updateViewFromModel()
@@ -76,14 +77,17 @@ class ViewController: UIViewController {
     func getEmoji(for card: Card) -> String {
         //Add the emoji choice to the emoji dictionary
         if emoji[card.identifier] == nil, emojiChoices.count > 0 {
-            let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
+            let randomIndex = getRandomIndex(for: emojiChoices.count)
             emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
         }
         return emoji[card.identifier] ?? "?"
     }
     
+    // Extra Credit - Setting theme
     func setTheme() {
-        let randomIndex = Int(arc4random_uniform(UInt32(themes.count)))
+        
+        // Get a random theme from the themes dictionary
+        let randomIndex = getRandomIndex(for: themes.count)
         let themeKeys = Array(themes.keys)
         let themeName = themeKeys[randomIndex]
         let theme = themes[themeName] ?? nil
@@ -95,10 +99,12 @@ class ViewController: UIViewController {
             cardColor = (colors[0] as! UIColor)
             view.backgroundColor = (colors[1] as! UIColor)
         }
-        
     }
     
-
+    // Helper to get random index from desired array count.
+    func getRandomIndex(for arrayCount: Int) -> Int {
+        return Int(arc4random_uniform(UInt32(arrayCount)))
+    }
     
 }
 

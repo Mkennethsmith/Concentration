@@ -18,6 +18,8 @@ class Concentration {
     
     var score = 0;
     
+    var fiveSecondAttemptTime: Date
+    
     func reset() {
         flipCount = 0
         score = 0
@@ -27,6 +29,7 @@ class Concentration {
             cards[index].witnessed = false
         }
     }
+    
     
     func chooseCard(at index: Int) {
         
@@ -41,6 +44,13 @@ class Concentration {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
                     score += 2
+                    
+                    //EXTRA CREDIT - TIME BONUS
+                    //If we find a match in less than 5 seconds give a bonus point
+                    if fiveSecondAttemptTime > Date.init() {
+                        score += 1
+                    }
+                    
                 } else {
                     // They dont match, check if the either have been witnessed previously
                     if cards[index].witnessed {
@@ -56,11 +66,14 @@ class Concentration {
                 cards[index].witnessed = true
                 cards[matchIndex].witnessed = true
             } else {
+                
                 // either no cards or two cards face up
                 for flipDownIndex in cards.indices {
                     cards[flipDownIndex].isFaceUp = false
                 }
                 faceUpCardIndex = index
+                // Start the 5 second timer
+                fiveSecondAttemptTime = Date.init().addingTimeInterval(5)
             }
 
             cards[index].isFaceUp = true
@@ -76,6 +89,7 @@ class Concentration {
             cards += [card, card]
         }
         
+        // Shuffle the cards
         var lastCardIndex = cards.count - 1;
         
         while lastCardIndex > 0 {
@@ -83,7 +97,8 @@ class Concentration {
             cards.swapAt(randomIndex, lastCardIndex)
             lastCardIndex -= 1
         }
-    
+        
+        fiveSecondAttemptTime = Date.init()
     }
     
 }
