@@ -18,11 +18,36 @@ class Concentration {
     
     var score = 0;
     
-    var fiveSecondAttemptTime: Date
+    var twoSecondAttemptTime: Date
     
+    var scoredBonus = false
+    
+    init(numberOfPairsOfCards: Int) {
+        
+        //Create the specified numbered pairs of cards
+        for _ in 1...numberOfPairsOfCards {
+            // create a card and add two copies to the cards array
+            let card = Card()
+            cards += [card, card]
+        }
+        
+        // Shuffle the cards
+        var lastCardIndex = cards.count - 1;
+        
+        while lastCardIndex > 0 {
+            let randomIndex = Int(arc4random_uniform(UInt32(lastCardIndex)))
+            cards.swapAt(randomIndex, lastCardIndex)
+            lastCardIndex -= 1
+        }
+        
+        twoSecondAttemptTime = Date.init()
+    }
+    
+    //Reset the Game
     func reset() {
         flipCount = 0
         score = 0
+        scoredBonus = false
         for index in 0..<cards.count {
             cards[index].isFaceUp = false
             cards[index].isMatched = false
@@ -47,8 +72,11 @@ class Concentration {
                     
                     //EXTRA CREDIT - TIME BONUS
                     //If we find a match in less than 5 seconds give a bonus point
-                    if fiveSecondAttemptTime > Date.init() {
+                    if twoSecondAttemptTime > Date.init() {
                         score += 1
+                        scoredBonus = true
+                    } else {
+                        scoredBonus = false
                     }
                     
                 } else {
@@ -62,43 +90,25 @@ class Concentration {
                 }
                 faceUpCardIndex = nil
                 
-                // After attempting a match, remember we witnessed the cards
+                // After attempting a match, remember witnessing the cards
                 cards[index].witnessed = true
                 cards[matchIndex].witnessed = true
             } else {
-                
                 // either no cards or two cards face up
                 for flipDownIndex in cards.indices {
                     cards[flipDownIndex].isFaceUp = false
                 }
                 faceUpCardIndex = index
+                
                 // Start the 5 second timer
-                fiveSecondAttemptTime = Date.init().addingTimeInterval(5)
+                scoredBonus = false
+                twoSecondAttemptTime = Date.init().addingTimeInterval(2)
             }
 
             cards[index].isFaceUp = true
         }
     }
     
-    
-    
-    init(numberOfPairsOfCards: Int) {
-        for _ in 1...numberOfPairsOfCards {
-            // create a card and add two copies to the cards array
-            let card = Card()
-            cards += [card, card]
-        }
-        
-        // Shuffle the cards
-        var lastCardIndex = cards.count - 1;
-        
-        while lastCardIndex > 0 {
-            let randomIndex = Int(arc4random_uniform(UInt32(lastCardIndex)))
-            cards.swapAt(randomIndex, lastCardIndex)
-            lastCardIndex -= 1
-        }
-        
-        fiveSecondAttemptTime = Date.init()
-    }
+
     
 }

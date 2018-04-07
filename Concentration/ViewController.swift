@@ -25,17 +25,20 @@ class ViewController: UIViewController {
         "jobs": ["emoji" : ["👩🏼‍💻","👨🏼‍🏫","👩🏼‍🔬","👨🏼‍🍳","👩🏼‍🌾","👩🏼‍🚀","👩🏼‍✈️","👨🏼‍⚖️","👩🏼‍🔧","👨🏼‍🏭"], "colors": [#colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1),#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)] ],
     ]
     
-    // EXTRA CREDIT - Setting Theme
-    override func viewDidLoad() {
-        setTheme()
-        updateViewFromModel()
-    }
-    
     @IBOutlet weak var flipCountLabel: UILabel!
+    
+    @IBOutlet weak var bonusPointLabel: UILabel!
     
     @IBOutlet weak var scoreLabel: UILabel!
 
     @IBOutlet var cardButtons: [UIButton]!
+    
+    // EXTRA CREDIT - Setting Theme
+    override func viewDidLoad() {
+        setTheme()
+        bonusPointLabel.isHidden = true
+        updateViewFromModel()
+    }
     
     @IBAction func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender) {
@@ -53,14 +56,19 @@ class ViewController: UIViewController {
         updateViewFromModel()
     }
     
-    
     func updateViewFromModel () {
         
         flipCountLabel.text = "Flips: \(game.flipCount)"
         flipCountLabel.textColor = cardColor
         scoreLabel.text = "Score: \(game.score)"
         scoreLabel.textColor = cardColor
-
+        
+        if(game.scoredBonus) {
+            bonusPointLabel.isHidden = false
+        } else {
+            bonusPointLabel.isHidden = true
+        }
+        
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]
@@ -82,8 +90,9 @@ class ViewController: UIViewController {
         }
         return emoji[card.identifier] ?? "?"
     }
+
     
-    // Extra Credit - Setting theme
+    // EXTRA CREDIT - Setting theme
     func setTheme() {
         
         // Get a random theme from the themes dictionary
