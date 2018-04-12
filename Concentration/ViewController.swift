@@ -10,33 +10,37 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+    private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     
-    var emoji        = [Int:String]()
-    var cardColor    = UIColor()
-    var emojiChoices = [String]()
+    var numberOfPairsOfCards: Int {
+        return (cardButtons.count + 1) / 2
+    }
     
-    let themes = [
-        "halloween": ["emoji": ["👻","🎃","🧛🏼‍♂️","🦇","🍬","🍭","🍫","😈","🧟‍♂️","🍎"], "colors": [#colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1),#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)] ],
-        "faces": ["emoji": ["😀","😍","😴","😱","🤣","😂","😉","🙄","😬","🤨"], "colors": [#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1),#colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)] ],
-        "animals": ["emoji": ["🐶","🐱","🐼","🦊","🦁","🐯","🐨","🐮","🐷","🐵"], "colors": [#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1),#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)] ],
-        "summer": ["emoji" : ["🏄🏼‍♂️","🏊🏼‍♀️","☀️","🌈","🌼","🏖","⛱","🏝","🎣","🍦"], "colors": [#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1),#colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)] ],
-        "winter": ["emoji" : ["⛄️","☃️","🌨","❄️","🎿","🏂","⛷","🏒","⛸","🛷"], "colors": [#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1),#colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)]],
-        "jobs": ["emoji" : ["👩🏼‍💻","👨🏼‍🏫","👩🏼‍🔬","👨🏼‍🍳","👩🏼‍🌾","👩🏼‍🚀","👩🏼‍✈️","👨🏼‍⚖️","👩🏼‍🔧","👨🏼‍🏭"], "colors": [#colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1),#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)] ],
+    private var cardColor    = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+    private var cardEmoji    = [Int:String]()
+    private var emojiChoices = [String]()
+    private var currentThemeIndex = 0
+    
+    private let themes = [
+        Theme(name: "halloween", emoji:["👻","🎃","🧛🏼‍♂️","🦇","🍬","🍭","🍫","😈","🧟‍♂️","🍎"], colours: [#colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1),#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)]),
+        Theme(name: "faces", emoji:["😀","😍","😴","😱","🤣","😂","😉","🙄","😬","🤨"], colours: [#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1),#colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)]),
+        Theme(name: "animals", emoji:["🐶","🐱","🐼","🦊","🦁","🐯","🐨","🐮","🐷","🐵"], colours: [#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1),#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)]),
+        Theme(name: "summer", emoji:["🏄🏼‍♂️","🏊🏼‍♀️","☀️","🌈","🌼","🏖","⛱","🏝","🎣","🍦"], colours: [#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1),#colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)]),
+        Theme(name:"winter", emoji:["⛄️","🧣","🌨","❄️","🎿","🏂","⛷","🏒","⛸","🛷"], colours: [#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1),#colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)]),
+        Theme(name:"jobs", emoji:["👩🏼‍💻","👨🏼‍🏫","👩🏼‍🔬","👨🏼‍🍳","👩🏼‍🌾","👩🏼‍🚀","👩🏼‍✈️","👨🏼‍⚖️","👩🏼‍🔧","👨🏼‍🏭"], colours: [#colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1),#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)]),
     ]
+    
+    @IBOutlet weak var themeLabel: UILabel!
     
     @IBOutlet weak var flipCountLabel: UILabel!
     
-    @IBOutlet weak var bonusPointLabel: UILabel!
-    
     @IBOutlet weak var scoreLabel: UILabel!
-
+    
     @IBOutlet var cardButtons: [UIButton]!
     
     // EXTRA CREDIT - Setting Theme
     override func viewDidLoad() {
         setTheme()
-        bonusPointLabel.isHidden = true
         updateViewFromModel()
     }
     
@@ -51,23 +55,20 @@ class ViewController: UIViewController {
     
     @IBAction func touchNewGame(_ sender: Any) {
         game.reset()
-        emoji.removeAll()
+        cardEmoji.removeAll()
         setTheme()
         updateViewFromModel()
     }
     
-    func updateViewFromModel () {
+    private func updateViewFromModel () {
         
+        //Update the Flip count
         flipCountLabel.text = "Flips: \(game.flipCount)"
         flipCountLabel.textColor = cardColor
+        
+        //Update the Score
         scoreLabel.text = "Score: \(game.score)"
         scoreLabel.textColor = cardColor
-        
-        if(game.scoredBonus) {
-            bonusPointLabel.isHidden = false
-        } else {
-            bonusPointLabel.isHidden = true
-        }
         
         for index in cardButtons.indices {
             let button = cardButtons[index]
@@ -82,36 +83,38 @@ class ViewController: UIViewController {
         }
     }
     
-    func getEmoji(for card: Card) -> String {
+    private func getEmoji(for card: Card) -> String {
         //Add the emoji choice to the emoji dictionary
-        if emoji[card.identifier] == nil, emojiChoices.count > 0 {
+        if cardEmoji[card.identifier] == nil, emojiChoices.count > 0 {
             let randomIndex = getRandomIndex(for: emojiChoices.count)
-            emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
+            cardEmoji[card.identifier] = emojiChoices.remove(at: randomIndex)
         }
-        return emoji[card.identifier] ?? "?"
+        return cardEmoji[card.identifier] ?? "?"
     }
-
+    
     
     // EXTRA CREDIT - Setting theme
-    func setTheme() {
+    private func setTheme() {
         
         // Get a random theme from the themes dictionary
-        let randomIndex = getRandomIndex(for: themes.count)
-        let themeKeys = Array(themes.keys)
-        let themeName = themeKeys[randomIndex]
-        let theme = themes[themeName] ?? nil
+        var newThemeIndex = getRandomIndex(for: themes.count)
         
-        if theme != nil {
-            emojiChoices = theme!["emoji"] as! [String]
-            let colors = theme!["colors"] ?? [#colorLiteral(red: 1, green: 0.2527923882, blue: 1, alpha: 1), #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)]
-            
-            cardColor = (colors[0] as! UIColor)
-            view.backgroundColor = (colors[1] as! UIColor)
+        // Ensure we dont get the same theme twice in a row
+        while newThemeIndex == currentThemeIndex {
+            newThemeIndex = getRandomIndex(for: themes.count)
         }
+        
+        currentThemeIndex = newThemeIndex
+
+        emojiChoices = themes[currentThemeIndex].emoji
+        cardColor = themes[currentThemeIndex].colours[0]
+        themeLabel.text = themes[currentThemeIndex].name
+        themeLabel.textColor = cardColor
+        view.backgroundColor = themes[currentThemeIndex].colours[1]
     }
     
     // Helper to get random index from desired array count.
-    func getRandomIndex(for arrayCount: Int) -> Int {
+    private func getRandomIndex(for arrayCount: Int) -> Int {
         return Int(arc4random_uniform(UInt32(arrayCount)))
     }
     

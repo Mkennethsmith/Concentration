@@ -10,19 +10,40 @@ import Foundation
 
 class Concentration {
 
-    var cards = [Card]()
+    private(set) var cards = [Card]()
     
-    var faceUpCardIndex: Int?
+    private var faceUpCardIndex: Int? {
+        get {
+            var foundIndex: Int?
+            for index in cards.indices {
+                if cards[index].isFaceUp {
+                    if foundIndex == nil {
+                        foundIndex = index
+                    } else {
+                        return nil
+                    }
+                }
+            }
+            return foundIndex
+        }
+        set(newValue) {
+            for index in cards.indices {
+                cards[index].isFaceUp = (index == newValue)
+            }
+        }
+    }
     
-    var flipCount = 0
+    private(set) var flipCount = 0
     
-    var score = 0;
+    private(set) var score = 0;
     
-    var twoSecondAttemptTime: Date
+    private var twoSecondAttemptTime: Date
     
-    var scoredBonus = false
+    private(set) var scoredBonus = false
     
     init(numberOfPairsOfCards: Int) {
+        assert(numberOfPairsOfCards > 0,
+            "Concentration.init(numberOfPairsOfCards: \(numberOfPairsOfCards) : You need at least 1 pair of cards")
         
         //Create the specified numbered pairs of cards
         for _ in 1...numberOfPairsOfCards {
@@ -57,7 +78,7 @@ class Concentration {
     
     
     func chooseCard(at index: Int) {
-        
+        assert(cards.indices.contains(index), "Consentration.chooseCard(at: \(index): chosen index no in the cards")
         if !cards[index].isMatched {
             flipCount += 1
             
@@ -88,24 +109,15 @@ class Concentration {
                         score -= 1
                     }
                 }
-                faceUpCardIndex = nil
-                
-                // After attempting a match, remember witnessing the cards
+                cards[index].isFaceUp = true
                 cards[index].witnessed = true
                 cards[matchIndex].witnessed = true
             } else {
-                // either no cards or two cards face up
-                for flipDownIndex in cards.indices {
-                    cards[flipDownIndex].isFaceUp = false
-                }
                 faceUpCardIndex = index
-                
                 // Start the 5 second timer
                 scoredBonus = false
                 twoSecondAttemptTime = Date.init().addingTimeInterval(2)
             }
-
-            cards[index].isFaceUp = true
         }
     }
     
