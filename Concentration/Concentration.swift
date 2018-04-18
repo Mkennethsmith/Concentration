@@ -14,17 +14,7 @@ class Concentration {
     
     private var faceUpCardIndex: Int? {
         get {
-            var foundIndex: Int?
-            for index in cards.indices {
-                if cards[index].isFaceUp {
-                    if foundIndex == nil {
-                        foundIndex = index
-                    } else {
-                        return nil
-                    }
-                }
-            }
-            return foundIndex
+            return cards.indices.filter {cards[$0].isFaceUp}.oneAndOnly
         }
         set(newValue) {
             for index in cards.indices {
@@ -86,7 +76,7 @@ class Concentration {
             if let matchIndex = faceUpCardIndex, matchIndex != index {
                 
                 // If cards match
-                if cards[index].identifier == cards[matchIndex].identifier {
+                if cards[index] == cards[matchIndex] {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
                     score += 2
@@ -112,6 +102,8 @@ class Concentration {
                 cards[index].isFaceUp = true
                 cards[index].witnessed = true
                 cards[matchIndex].witnessed = true
+                
+                //TODO: remove the witnessed property, and replace with a wittnessed cards array.
             } else {
                 faceUpCardIndex = index
                 // Start the 5 second timer
@@ -120,7 +112,11 @@ class Concentration {
             }
         }
     }
-    
+}
 
-    
+//Return the element if there is only one in a collection.
+extension Collection {
+    var oneAndOnly: Element? {
+        return count == 1 ? first : nil
+    }
 }

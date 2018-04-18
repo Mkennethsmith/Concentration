@@ -65,7 +65,6 @@
 				27E2E0A72070E570003EFC9B /* Concentration.swift */,
 				27EA75152079520600DD61E1 /* Theme.swift */,
 				27E2E0A92070E6E2003EFC9B /* Card.swift */,
-				272994C1206FC902007A7540 /* Info.plist */,
 				3323F6560594E019495DEA3C /* Supporting Files */,
 			);
 			path = Concentration;
@@ -74,6 +73,7 @@
 		3323F6560594E019495DEA3C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				272994C1206FC902007A7540 /* Info.plist */,
 				3323F66F50F618596B266402 /* AppDelegate.swift */,
 				3323FBA8E8BD2FA008F6A113 /* Assets.xcassets */,
 				3323F75F23032DCC0758E52C /* LaunchScreen.storyboard */,
