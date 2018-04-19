@@ -23,6 +23,8 @@ class Concentration {
         }
     }
     
+    private var witnessedCards = [Card]()
+    
     private(set) var flipCount = 0
     
     private(set) var score = 0;
@@ -92,17 +94,17 @@ class Concentration {
                     
                 } else {
                     // They dont match, check if the either have been witnessed previously
-                    if cards[index].witnessed {
+                    if(witnessedCards.contains(cards[index])) {
                         score -= 1
                     }
-                    if cards[matchIndex].witnessed {
+                    
+                    if witnessedCards.contains(cards[matchIndex]) {
                         score -= 1
                     }
+                    
                 }
                 cards[index].isFaceUp = true
-                cards[index].witnessed = true
-                cards[matchIndex].witnessed = true
-                
+                witnessedCards += [cards[index], cards[matchIndex]]
                 //TODO: remove the witnessed property, and replace with a wittnessed cards array.
             } else {
                 faceUpCardIndex = index

@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     }
     
     private var cardColor    = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
-    private var cardEmoji    = [Int:String]()
+    private var cardEmoji    = [Card:String]()
     private var emojiChoices = [String]()
     private var currentThemeIndex = 0
     
@@ -83,13 +83,14 @@ class ViewController: UIViewController {
         }
     }
     
+    
     private func getEmoji(for card: Card) -> String {
         //Add the emoji choice to the emoji dictionary
-        if cardEmoji[card.identifier] == nil, emojiChoices.count > 0 {
+        if cardEmoji[card] == nil, emojiChoices.count > 0 {
             let randomIndex = getRandomIndex(for: emojiChoices.count)
-            cardEmoji[card.identifier] = emojiChoices.remove(at: randomIndex)
+            cardEmoji[card] = emojiChoices.remove(at: randomIndex)
         }
-        return cardEmoji[card.identifier] ?? "?"
+        return cardEmoji[card] ?? "?"
     }
     
     
@@ -105,7 +106,6 @@ class ViewController: UIViewController {
         }
         
         currentThemeIndex = newThemeIndex
-
         emojiChoices = themes[currentThemeIndex].emoji
         cardColor = themes[currentThemeIndex].colours[0]
         themeLabel.text = themes[currentThemeIndex].name
