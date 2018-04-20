@@ -7,7 +7,7 @@ https://itunes.apple.com/us/course/developing-ios-11-apps-with-swift/id130927531
 
 I've edited the outline to cater for someone following the course in their own time. 
 
-##Objective
+## Objective
 The goal of this assignment is to recreate the demonstration given in lectures 1 and 2 and then make some small enhancements. 
 It is important that you understand what you are doing with each step of recreating the demo from lecture so that you are prepared to do the enhancements.
 Another goal is to get experience creating a project in Xcode and typing code in from scratch. Do not copy/paste any of the code from anywhere. Type it in 
@@ -15,12 +15,12 @@ and watch what Xcode does as you do so. This assignment should be completed befo
 (i.e. before lecture 4).
 
 
-##Materials
+## Materials
 • You will need to install the (free) program Xcode 9 using the App Store on your Mac (previous versions of Xcode will NOT work). It is highly recommended that you do this immediately so that if you have any problems getting Xcode to work, you have time to get help from Piazza and/or the TAs in their office hours.
 
 • A link to the video of the lectures can be found in the same place you found this document.
 
-##Required Tasks
+## Required Tasks
 1. Get the Concentration game working as demonstrated in lectures 1 and 2. Type in all the code. Do not copy/paste from anywhere.
 2. Add more cards to the game.
 3. Add a “New Game” button to your UI which ends the current game in progress and begins a brand new game.
@@ -31,18 +31,19 @@ and watch what Xcode does as you do so. This assignment should be completed befo
 8. Tracking the flip count almost certainly does not belong in your Controller in a proper MVC architecture. Fix that.
 9. All new UI you add should be nicely laid out and look good in portrait mode on an iPhone X.
 
-##Things to Learn
+## Things to Learn
 Here is a partial list of concepts this assignment is intended to let you gain practice with or otherwise demonstrate your knowledge of.
-1. 2. 3. 4. 5. 6. 7. 8. 9.
+1. Xcode 9
+2. Swift
+3. MVC
+4. UIViewController subclass
+5. UILabel and UIButton
+6. Target/Action (@IBAction)
+7.Outlets (@IBOutlet) and Outlet Collections 
+8. functions and properties (instance variables) 
+9. let versus var
 10. Valuetype(struct,enum)versusreferencetype(class)
 11. Strong typing and type inference
-Xcode 9
-Swift
-MVC
-UIViewController subclass
-UILabel and UIButton
-Target/Action (@IBAction)
-Outlets (@IBOutlet) and Outlet Collections functions and properties (instance variables) let versus var
 12. didSet
 13. forin(and..<CountableRangesyntax)
 14. Array<Element> and Dictionary<Key, Value>
