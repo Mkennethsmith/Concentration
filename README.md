@@ -57,7 +57,7 @@ Here is a partial list of concepts this assignment is intended to let you gain p
 22. Type conversion (e.g. from UInt to Int)
 23. Stack View and (simple) autolayout
 
-##Evaluation
+## Evaluation
 In all of the assignments, writing quality code that builds without warnings or errors, and then testing the resulting application and iterating until it functions properly is the goal.
 Here are the most common reasons assignments are marked down:
 • Project does not build.
