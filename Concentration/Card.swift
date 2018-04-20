@@ -12,7 +12,6 @@ struct Card: Hashable {
     
     var isFaceUp  = false
     var isMatched = false
-    var witnessed = false
     private var identifier: Int
     
     var hashValue: Int {
@@ -23,7 +22,7 @@ struct Card: Hashable {
         return lhs.identifier == rhs.identifier
     }
     
-    private static var identifierFactory = 0;
+    private static var identifierFactory = 0
     
     private static func getUniqueIdentifier() -> Int {
         identifierFactory += 1

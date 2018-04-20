@@ -103,6 +103,7 @@ class Concentration {
                     }
                     
                 }
+                
                 cards[index].isFaceUp = true
                 witnessedCards += [cards[index], cards[matchIndex]]
                 //TODO: remove the witnessed property, and replace with a wittnessed cards array.

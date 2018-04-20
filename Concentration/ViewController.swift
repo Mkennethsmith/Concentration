@@ -53,7 +53,7 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func touchNewGame(_ sender: Any) {
+    @IBAction func touchNewGame(_ sender: UIButton) {
         game.reset()
         cardEmoji.removeAll()
         setTheme()
