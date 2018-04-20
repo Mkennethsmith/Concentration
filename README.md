@@ -39,7 +39,7 @@ Here is a partial list of concepts this assignment is intended to let you gain p
 4. UIViewController subclass
 5. UILabel and UIButton
 6. Target/Action (@IBAction)
-7.Outlets (@IBOutlet) and Outlet Collections 
+7. Outlets (@IBOutlet) and Outlet Collections 
 8. functions and properties (instance variables) 
 9. let versus var
 10. Valuetype(struct,enum)versusreferencetype(class)
