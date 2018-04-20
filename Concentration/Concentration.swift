@@ -64,8 +64,8 @@ class Concentration {
         for index in 0..<cards.count {
             cards[index].isFaceUp = false
             cards[index].isMatched = false
-            cards[index].witnessed = false
         }
+        witnessedCards.removeAll()
     }
     
     
